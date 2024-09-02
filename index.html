@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Hacker Terminal</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        #terminal {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+        .glitch {
+            color: #00ff00;
+            position: relative;
+            font-size: 24px;
+            animation: glitch 1s linear infinite;
+        }
+        @keyframes glitch {
+            2%, 64% {
+                transform: translate(2px,0) skew(0deg);
+            }
+            4%, 60% {
+                transform: translate(-2px,0) skew(0deg);
+            }
+            62% {
+                transform: translate(0,0) skew(5deg);
+            }
+        }
+        .glitch:before,
+        .glitch:after {
+            content: attr(title);
+            position: absolute;
+            left: 0;
+        }
+        .glitch:before {
+            animation: glitchTop 1s linear infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+        }
+        @keyframes glitchTop {
+            2%, 64% {
+                transform: translate(2px,-2px);
+            }
+            4%, 60% {
+                transform: translate(-2px,2px);
+            }
+            62% {
+                transform: translate(13px,-1px) skew(-13deg);
+            }
+        }
+        .glitch:after {
+            animation: glitchBottom 1.5s linear infinite;
+            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+        }
+        @keyframes glitchBottom {
+            2%, 64% {
+                transform: translate(-2px,0);
+            }
+            4%, 60% {
+                transform: translate(-2px,0);
+            }
+            62% {
+                transform: translate(-22px,5px) skew(21deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="glitch" title="HACKER TERMINAL">HACKER TERMINAL</h1>
+    <div id="terminal"></div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const hackerCode = `
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#define PORT 31337
+#define BUFFER_SIZE 1024
+
+int main(int argc, char *argv[]) {
+    int sockfd, new_sockfd;
+    struct sockaddr_in server_addr, client_addr;
+    socklen_t sin_size;
+    char buffer[BUFFER_SIZE];
+    int recv_length;
+
+    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+        perror("socket");
+        exit(1);
+    }
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    memset(&(server_addr.sin_zero), '\\0', 8);
+
+    if (bind(sockfd, (struct sockaddr *)&server_addr, sizeof(struct sockaddr)) == -1) {
+        perror("bind");
+        exit(1);
+    }
+
+    if (listen(sockfd, 5) == -1) {
+        perror("listen");
+        exit(1);
+    }
+
+    while(1) {
+        sin_size = sizeof(struct sockaddr_in);
+        new_sockfd = accept(sockfd, (struct sockaddr *)&client_addr, &sin_size);
+        if (new_sockfd == -1) {
+            perror("accept");
+            continue;
+        }
+        printf("Connection from %s:%d\\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+
+        if ((recv_length = recv(new_sockfd, buffer, BUFFER_SIZE, 0)) > 0) {
+            printf("Received: %s", buffer);
+            send(new_sockfd, "ACK\\n", 4, 0);
+        }
+
+        close(new_sockfd);
+    }
+
+    return 0;
+}`;
+
+        let currentIndex = 0;
+
+        function typeCode() {
+            if (currentIndex < hackerCode.length) {
+                terminal.textContent += hackerCode[currentIndex];
+                currentIndex++;
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            event.preventDefault();
+            typeCode();
+        });
+
+        // Matrix rain effect
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        document.body.appendChild(canvas);
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.zIndex = '-1';
+
+        const columns = canvas.width / 20;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0F0';
+            ctx.font = '15px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = String.fromCharCode(Math.random() * 128);
+                ctx.fillText(text, i * 20, drops[i] * 20);
+
+                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+    </script>
+</body>
+</html>
