@@ -1,7 +1,7 @@
 # 👋 Hi there, I'm EliteCronax
 
 <p align="center">
-  <img src="https://imgur.com/gallery/logo-HxpmW8H" alt="Banner" width="100%">
+  <img src="[image](https://imgur.com/gallery/logo-HxpmW8H)" alt="Banner" width="100%">
 </p>
 
 ## 🚀 About Me
@@ -49,7 +49,7 @@ I'm a passionate developer with a love for code. My goal is to work with profess
 
 ## 🎵 Now Playing
 
-[![Spotify](https://novatorem-your-username.vercel.app/api/spotify)](https://open.spotify.com/user/cron)
+[![Spotify](https://novatorem-your-username.vercel.app/api/spotify)](https://open.spotify.com/user/https://open.spotify.com/user/31h433y62buo4vvirgn7kpgxreue?si=IbCuewIoRESYEaWe1NU1rA)
 
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=elitecronax&color=blueviolet" alt="Profile views">
