@@ -1,9 +1,5 @@
 # 👋 Hi there, I'm EliteCronax
 
-<p align="center">
-  <img src="[image](https://imgur.com/gallery/logo-HxpmW8H)" alt="Banner" width="100%">
-</p>
-
 ## 🚀 About Me
 
 I'm a passionate developer with a love for code. My goal is to work with professionals.
